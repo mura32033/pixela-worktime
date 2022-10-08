@@ -4,6 +4,12 @@ export default defineNuxtConfig({
     apiKey: ''
   },
   modules: [
-    '@nuxtjs/tailwindcss'
-  ]
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/google-fonts'
+  ],
+  googleFonts: {
+    families: {
+      'Share Tech Mono': true
+    }
+  }
 })
