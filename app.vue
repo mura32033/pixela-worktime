@@ -11,7 +11,7 @@
         </div>
         <div>
           <h2 class="text-3xl my-4">History</h2>
-          <div v-for="h in history.pixels" :key="h.date" class="ml-4 text-slate-400">
+          <div v-for="h in history" :key="h.date" class="ml-4 text-slate-400">
             <div class="flex flex-row items-end gap-2 border-b border-b-slate-700">
               <h3 class="text-xl">{{ formatDate(h.date) }}</h3>
               <p class="text-sm ml-auto">Total: {{ formatDuration(h.quantity) }}</p>
@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
@@ -49,9 +49,9 @@ export default {
   methods: {
     async getWorktime () {
       this.loading = true
-      const history = await $fetch('api/history')
-      const stats = await $fetch('api/stats')
-      this.history = history
+      const history:Object = await $fetch('api/history')
+      const stats:Object = await $fetch('api/stats')
+      this.history = history.pixels.reverse()
       this.stats = stats
       this.loading = false
     },
@@ -68,7 +68,6 @@ export default {
       const start = dayjs(timePeriod[0], "HH:mm:ss")
       const end = dayjs(timePeriod[1], "HH:mm:ss")
       const diff = end.diff(start, 'minutes')
-      console.log(diff)
       return diff
     }
   },
