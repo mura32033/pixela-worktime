@@ -11,13 +11,13 @@
         </div>
         <div>
           <h2 class="text-3xl my-4">History</h2>
-          <div v-for="h in sortArray(history.pixels)" :key="h.date" class="ml-4 text-slate-400">
+          <div v-for="h in history.pixels" :key="h.date" class="ml-4 text-slate-400">
             <div class="flex flex-row items-end gap-2 border-b border-b-slate-700">
               <h3 class="text-xl">{{ formatDate(h.date) }}</h3>
               <p class="text-sm ml-auto">Total: {{ formatDuration(h.quantity) }}</p>
             </div>
             <ul>
-              <li v-for="(p, index) in sortArray(JSON.parse(h.optionalData).stopwatchUsage.stopwatchPeriods)" :key="h.date + index" class="text-sm ml-8 my-2 list-disc">
+              <li v-for="(p, index) in JSON.parse(h.optionalData).stopwatchUsage.stopwatchPeriods" :key="h.date + index" class="text-sm ml-8 my-2 list-disc">
                 {{ p }} ({{ calcMinutes(p) }} minutes)
               </li>
             </ul>
@@ -63,14 +63,12 @@ export default {
       const d = dayjs.duration(duration, 'minutes')
       return d.format('HH:mm:ss')
     },
-    sortArray (array) {
-      return array.reverse()
-    },
     calcMinutes (duration) {
       const timePeriod = duration.split(' - ')
       const start = dayjs(timePeriod[0], "HH:mm:ss")
       const end = dayjs(timePeriod[1], "HH:mm:ss")
       const diff = end.diff(start, 'minutes')
+      console.log(diff)
       return diff
     }
   },
