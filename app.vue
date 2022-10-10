@@ -55,20 +55,24 @@ export default {
       this.stats = stats
       this.loading = false
     },
-    formatDate (date) {
+    formatDate (date: number) {
       const d = dayjs(date)
       return d.format('YYYY/MM/DD')
     },
-    formatDuration (duration) {
+    formatDuration (duration: number) {
       const d = dayjs.duration(duration, 'minutes')
       return d.format('HH:mm:ss')
     },
-    calcMinutes (duration) {
+    calcMinutes (duration: string) {
       const timePeriod = duration.split(' - ')
       const start = dayjs(timePeriod[0], "HH:mm:ss")
-      const end = dayjs(timePeriod[1], "HH:mm:ss")
-      const diff = end.diff(start, 'minutes')
-      return diff
+      if (!timePeriod[1]) {
+        return 0
+      } else {
+        const end = dayjs(timePeriod[1], "HH:mm:ss")
+        const diff = end.diff(start, 'minutes')
+        return diff
+      }      
     }
   },
   mounted () {
